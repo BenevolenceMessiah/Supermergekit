@@ -131,7 +131,8 @@ start call Install-unsloth.bat
 cd ..
 git clone https://github.com/BenevolenceMessiah/stable-diffusion-webui.git supermerger
 cd supermerger
-set COMMANDLINE_ARGS= --no-half --no-half-vae --api --opt-split-attention --precision full --port 7861 --autolaunch
+git pull
+set COMMANDLINE_ARGS= --xformers --no-half --no-half-vae --api --opt-split-attention --precision full --port 7861 --autolaunch
 :: if not exist extensions mkdir extensions
 cd extensions
 git clone https://github.com/BenevolenceMessiah/supermerger.git
