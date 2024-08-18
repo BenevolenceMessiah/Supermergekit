@@ -61,13 +61,17 @@ echo Note:
 echo - These options are all case sensitive.
 echo - Launching remotely may be advantageous for merging larger models
 echo - Press Ctrl+c to exit at any time!
+echo - This program assumes you have Python 3.10.6 and Git installed!!! 
+echo      https://www.python.org/ftp/python/3.10.6/python-3.10.6-amd64.exe
+echo      https://github.com/git-for-windows/git/releases/download/v2.46.0.windows.1/Git-2.46.0-64-bit.exe
 echo ---------------------------------------------------------------
 echo 1) Install
 echo A) Install additional optional tools (unsloth and supermerger)
 echo 2) Launch locally via Gradio
 echo 3) Launch locally via Jupyter Notebook
 echo 4) Launch remotley via Google Colab Notebook
-echo 5) Launch remotley via HuggingFace Space
+echo 5) Launch remotley via HuggingFace Spaces
+echo G) Launch remotely gguf-my-repo via HuggingFace Spaces (Tool that allows for the search and GGUF conversion of any Transformers model on Huggingface).
 echo L) Login to HuggingFace (for saving models and accessing gated models.)
 echo E) Run LoRA extraction
 echo T) Run model/LoRA/QLoRA training via unsloth Google Colab Notebook
@@ -81,6 +85,8 @@ if %option% == A goto InstallExtra
 if %option% == 2 goto Run
 if %option% == 3 goto RunNotebookLocal
 if %option% == 4 goto RunNotebookRemote
+if %option% == 5 goto RunHuggingfaceRemote
+if %option% == G goto gguff-my-repo
 if %option% == L goto Login
 if %option% == E goto Extraction
 if %option% == T goto Training
@@ -113,35 +119,94 @@ echo ---------------------------------------------------------------
 goto Menu1
 
 :InstallExtra
-echo Creating virtual environment
 echo ---------------------------------------------------------------
-if not exist venv (
-    py -3.10 -m venv .venv
-) else (
-    echo Existing venv detected. Activating.
-)
-echo Activating virtual environment
-call .venv\Scripts\activate
+echo            Please choose from the following options:           
+echo What do you want to install?
 echo ---------------------------------------------------------------
-echo Installing unsloth and supermerger
-git clone https://github.com/BenevolenceMessiah/unsloth.git
+echo 6) Install/run unsloth (for training text generative LoRAs, QLoRAs, and AI Models, and datasets.)
+echo 7) Install/run supermerger (for merging and creating image generative AI models and LoRAs.)
+echo 8) Install/run Mangio-RVC-v23.7.0-easiergui-snapshot (for training and runnining auditory AI models.)
+echo L) Login to HuggingFace (for saving models and accessing gated models.)
+echo M) Main Menu
+echo C) Exit
+echo U) Update
+echo ---------------------------------------------------------------
+
+set /P option=Enter your choice:
+if %option% == 6 goto Installunsloth
+if %option% == 7 goto Installsupermerger
+if %option% == 8 goto InstallMangio
+if %option% == L goto Login
+if %option% == M goto Menu1
+if %option% == C goto End
+if %option% == U goto Updater
+
+:Installunsloth
+:: echo Creating virtual environment
+:: echo ---------------------------------------------------------------
+:: if not exist venv (
+::    py -3.10 -m venv .venv
+:: ) else (
+::     echo Existing venv detected. Activating.
+:: )
+:: echo Activating virtual environment
+:: call .venv\Scripts\activate
+echo ---------------------------------------------------------------
+echo Installing unsloth...
+echo ---------------------------------------------------------------
+if not exist unsloth\ git clone https://github.com/BenevolenceMessiah/unsloth.git
 cd unsloth
 git pull
 start call Install-unsloth.bat
 cd ..
-git clone https://github.com/BenevolenceMessiah/stable-diffusion-webui.git supermerger
+echo installed!
+echo ---------------------------------------------------------------
+goto InstallExtra
+
+:Installsupermerger
+echo ---------------------------------------------------------------
+echo Installing supermerger...
+echo ---------------------------------------------------------------
+if not exist supermerger\ git clone https://github.com/BenevolenceMessiah/stable-diffusion-webui.git supermerger
 cd supermerger
 git pull
-set COMMANDLINE_ARGS= --xformers --no-half --no-half-vae --api --opt-split-attention --precision full --port 7861 --autolaunch
+set COMMANDLINE_ARGS= --xformers --no-half --no-half-vae --api --opt-split-attention --precision full --port 7861 --autolaunch --ui-config-supermerger-config.json
 :: if not exist extensions mkdir extensions
 cd extensions
 git clone https://github.com/BenevolenceMessiah/supermerger.git
+cd supermerger
+git pull
+cd ..
 cd ..
 start call webui-user.bat
 cd ..
 echo installed!
 echo ---------------------------------------------------------------
-goto Menu1
+goto InstallExtra
+
+:InstallMangio
+echo Installing Mangio-RVC snapshot...
+echo ---------------------------------------------------------------
+:: Skipping Downloads if build is complete.
+if exist Mangio-RVC-v23.7.0-easiergui-snapshot\ goto Skip1
+:: Download additional big stuff from Google Drive.
+echo ---------------------------------------------------------------
+echo As-salamu alaykum!!
+echo Downloading additional big files from Google Drive because I'm not paying for Git LFS storage space...
+echo ---------------------------------------------------------------
+cd /d %~dp0
+call curl "https://drive.usercontent.google.com/download?id=1G4cMOXvzhm3H4jtWoVLYtD81agoX_XOR&export=download&authuser=1&confirm=t&uuid=11d4e615-4f0a-4eab-91a4-e97bbdc8223c&at=APZUnTVyeHT3MjXvWl_I8VAgH7QV%3A1723366403393" -o Mangio-RVC-v23.7.0-easiergui-snapshot.zip
+:: Unzip assets and delete archives.
+echo ---------------------------------------------------------------
+echo Attempting to install and run Mangio-RVC from snapshot!
+echo ---------------------------------------------------------------
+powershell -command "Expand-Archive -Force '%~dp0*.zip' '%~dp0'"
+if exist Mangio-RVC-v23.7.0-easiergui-snapshot.zip del Mangio-RVC-v23.7.0-easiergui-snapshot.zip
+cd
+:Skip1
+start call run_easiergui.bat
+cd ..
+goto InstallExtra
 
 :Login
 echo ---------------------------------------------------------------
@@ -225,6 +290,16 @@ echo ---------------------------------------------------------------
 python mergekit --help
 :: start start https://drive.google.com/file/d/1TcXuBLbGMsuDazv5eEuVc7rgXVNKsJ__/view?usp=sharing
 start start https://colab.research.google.com/drive/1TcXuBLbGMsuDazv5eEuVc7rgXVNKsJ__
+goto Menu1
+
+:RunHuggingfaceRemote
+echo Running mergekit-gui
+start start https://huggingface.co/spaces/arcee-ai/mergekit-gui
+goto Menu1
+
+:gguf-my-repo
+echo Launching gguf-my repo
+start start https://huggingface.co/spaces/BenevolenceMessiah/gguf-my-repo-2
 goto Menu1
 
 :Training
