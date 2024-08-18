@@ -25,6 +25,10 @@ share/python-wheels/
 .installed.cfg
 *.egg
 sound.vbs
+Audio_Assets/
+unsloth/
+extensions/
+supermerger/
 MANIFEST
 
 # PyInstaller

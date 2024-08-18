@@ -49,23 +49,44 @@ echo detecting presence of repo, git cloning if not detected...
 echo ---------------------------------------------------------------
 if exist docs\ goto Menu1
 git clone https://github.com/BenevolenceMessiah/mergekit.git
-cd ComfyUI
+cd mergekit
 git pull
 echo ---------------------------------------------------------------
 
 :Menu1
-echo Please choose from the following options:
-echo Note: These options are all case sensitive.
-echo Press Ctrl+c to exit at any time!
 echo ---------------------------------------------------------------
-echo 1 Install
-echo 2 Run
+echo            Please choose from the following options:                     
+echo ---------------------------------------------------------------
+echo Note:
+echo - These options are all case sensitive.
+echo - Launching remotely may be advantageous for merging larger models
+echo - Press Ctrl+c to exit at any time!
+echo ---------------------------------------------------------------
+echo 1) Install
+echo A) Install additional optional tools (unsloth and supermerger)
+echo 2) Launch locally via Gradio
+echo 3) Launch locally via Jupyter Notebook
+echo 4) Launch remotley via Google Colab Notebook
+echo 5) Launch remotley via HuggingFace Space
+echo L) Login to HuggingFace (for saving models and accessing gated models.)
+echo E) Run LoRA extraction
+echo T) Run model/LoRA/QLoRA training via unsloth Google Colab Notebook
 echo C) Exit
+echo U) Update
+echo S) Play music via standalone cmd console while you wait for things to install/download/merge!
 
 set /P option=Enter your choice:
 if %option% == 1 goto Install
+if %option% == A goto InstallExtra
 if %option% == 2 goto Run
+if %option% == 3 goto RunNotebookLocal
+if %option% == 4 goto RunNotebookRemote
+if %option% == L goto Login
+if %option% == E goto Extraction
+if %option% == T goto Training
 if %option% == C goto End
+if %option% == U goto Updater
+if %option% == S goto Music
 
 :Install
 echo Creating virtual environment
@@ -91,6 +112,71 @@ echo installed!
 echo ---------------------------------------------------------------
 goto Menu1
 
+:InstallExtra
+echo Creating virtual environment
+echo ---------------------------------------------------------------
+if not exist venv (
+    py -3.10 -m venv .venv
+) else (
+    echo Existing venv detected. Activating.
+)
+echo Activating virtual environment
+call .venv\Scripts\activate
+echo ---------------------------------------------------------------
+echo Installing unsloth and supermerger
+git clone https://github.com/BenevolenceMessiah/unsloth.git
+cd unsloth
+git pull
+start call Install-unsloth.bat
+cd ..
+git clone https://github.com/BenevolenceMessiah/stable-diffusion-webui.git supermerger
+cd supermerger
+set COMMANDLINE_ARGS= --no-half --no-half-vae --api --opt-split-attention --precision full --port 7861 --autolaunch
+:: if not exist extensions mkdir extensions
+cd extensions
+git clone https://github.com/BenevolenceMessiah/supermerger.git
+cd ..
+start call webui-user.bat
+cd ..
+echo installed!
+echo ---------------------------------------------------------------
+goto Menu1
+
+:Login
+echo ---------------------------------------------------------------
+if not exist venv (
+    py -3.10 -m venv .venv
+) else (
+    echo Existing venv detected. Activating.
+)
+echo Activating virtual environment
+call .venv\Scripts\activate
+echo ---------------------------------------------------------------
+call huggingface-cli login
+goto Menu1
+
+:Extraction
+echo ---------------------------------------------------------------
+if not exist venv (
+    py -3.10 -m venv .venv
+) else (
+    echo Existing venv detected. Activating.
+)
+echo Activating virtual environment
+call .venv\Scripts\activate
+echo ---------------------------------------------------------------
+echo Mergekit allows extracting PEFT-compatible low-rank approximations of finetuned models.
+echo In the new cmd window that launched, paste the following code snippet and edit for your extraction:
+echo mergekit-extract-lora finetuned_model_id_or_path base_model_id_or_path output_path [--no-lazy-unpickle] --rank=desired_rank
+start call mergekit-extract-lora
+goto Menu1
+
+:Updater
+echo Updating everything!
+ls | xargs -I{} git -C {} pull
+echo ---------------------------------------------------------------
+goto Menu1
+
 :Run
 echo Running mergekit!
 echo ---------------------------------------------------------------
@@ -103,8 +189,58 @@ echo Activating virtual environment
 call .venv\Scripts\activate
 echo ---------------------------------------------------------------
 python mergekit --help
-call python app.py
+start call python app.py
 goto Menu1
+
+:RunNotebookLocal
+echo Running mergekit!
+echo ---------------------------------------------------------------
+if not exist venv (
+    py -3.10 -m venv .venv
+) else (
+    echo Existing venv detected. Activating.
+)
+echo Activating virtual environment
+call .venv\Scripts\activate
+echo ---------------------------------------------------------------
+:: echo installing Jupyter dependencies...
+:: pip install jupyter
+python mergekit --help
+:: start call jupyter nbconvert --execute notebook.ipynb
+start call jupyter notebook notebook.ipynb
+goto Menu1
+
+:RunNotebookRemote
+echo Running mergekit via Google Colab Runtime!
+echo ---------------------------------------------------------------
+if not exist venv (
+    py -3.10 -m venv .venv
+) else (
+    echo Existing venv detected. Activating.
+)
+echo Activating virtual environment
+call .venv\Scripts\activate
+echo ---------------------------------------------------------------
+python mergekit --help
+:: start start https://drive.google.com/file/d/1TcXuBLbGMsuDazv5eEuVc7rgXVNKsJ__/view?usp=sharing
+start start https://colab.research.google.com/drive/1TcXuBLbGMsuDazv5eEuVc7rgXVNKsJ__
+goto Menu1
+
+:Training
+echo Running training via unsloth Google Colab Notebook...
+start start https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp?usp=sharing
+goto Menu1
+
+:Music
+echo Installing music dependencies if not installed...
+echo ---------------------------------------------------------------
+if not exist Audio_Assets git clone https://github.com/BenevolenceMessiah/Audio_Assets.git
+cd Audio_Assets
+echo 
+start call launch_in_standalone_console.bat
+cd ..
+cd ..
+go to Menu1
 
 :End 
 echo ---------------------------------------------------------------

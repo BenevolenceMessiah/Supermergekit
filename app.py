@@ -47,10 +47,11 @@ cli = "mergekit-yaml config.yaml merge --copy-tokenizer" + (
 )
 
 MARKDOWN_DESCRIPTION = """
-# mergekit-gui
+# mergekit-WebUI
 
-As-salamu alaykum!!
-The f̶a̶s̶t̶e̶s̶t̶ way to perform a model merge 🔥
+## As-salamu alaykum!!
+
+The cheapest way to perform a model merge 🔥
 
 Specify a YAML configuration file (see examples below) and a HF token and this app will perform the merge and upload the merged model to your user profile.
 """
