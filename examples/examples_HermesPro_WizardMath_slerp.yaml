@@ -1,0 +1,8 @@
+models:
+  - model: NousResearch/Hermes-2-Pro-Mistral-7B
+  - model: WizardLM/WizardMath-7B-V1.1
+merge_method: slerp
+base_model: NousResearch/Hermes-2-Pro-Mistral-7B
+dtype: bfloat16
+parameters:
+  t: [0, 0.5, 1, 0.5, 0] # V shaped curve: Hermes for input & output, WizardMath in the middle layers
