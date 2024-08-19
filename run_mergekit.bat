@@ -54,24 +54,29 @@ git pull
 echo ---------------------------------------------------------------
 
 :Menu1
+echo                             Notes:     
 echo ---------------------------------------------------------------
-echo            Please choose from the following options:                     
-echo ---------------------------------------------------------------
-echo Note:
+echo - I Recommend running option 'S' for Music first if you plan on installing everything,
+echo   or would otherwise would like to listen to music while you work.
 echo - These options are all case sensitive.
 echo - Launching remotely may be advantageous for merging larger models
-echo - Press Ctrl+c to exit at any time!
+echo - Press Ctrl+c to exit, stop an install or a download at any time!
+echo - For quick troubleshooting in the event of any issues, delete the corresponding virtual environment for each repo. 
 echo - This program assumes you have Python 3.10.6 and Git installed!!! 
 echo      https://www.python.org/ftp/python/3.10.6/python-3.10.6-amd64.exe
 echo      https://github.com/git-for-windows/git/releases/download/v2.46.0.windows.1/Git-2.46.0-64-bit.exe
 echo ---------------------------------------------------------------
+echo            Please choose from the following options:          
+echo ---------------------------------------------------------------
 echo 1) Install
-echo A) Install additional optional tools (unsloth and supermerger)
+echo A) Install additional optional tools (unsloth, supermerger, and 
+echo    Mangio-RVC-v23.7.0-easiergui-snapshot.)
 echo 2) Launch locally via Gradio
 echo 3) Launch locally via Jupyter Notebook
 echo 4) Launch remotley via Google Colab Notebook
 echo 5) Launch remotley via HuggingFace Spaces
-echo G) Launch remotely gguf-my-repo via HuggingFace Spaces (Tool that allows for the search and GGUF conversion of any Transformers model on Huggingface).
+echo G) Launch remotely gguf-my-repo via HuggingFace Spaces (Tool that 
+echo    allows for the search and GGUF conversion of any Transformers model on Huggingface.)
 echo L) Login to HuggingFace (for saving models and accessing gated models.)
 echo E) Run LoRA extraction
 echo T) Run model/LoRA/QLoRA training via unsloth Google Colab Notebook
@@ -170,7 +175,7 @@ echo ---------------------------------------------------------------
 if not exist supermerger\ git clone https://github.com/BenevolenceMessiah/stable-diffusion-webui.git supermerger
 cd supermerger
 git pull
-set COMMANDLINE_ARGS= --xformers --no-half --no-half-vae --api --opt-split-attention --precision full --port 7861 --autolaunch --ui-config-supermerger-config.json
+set COMMANDLINE_ARGS= --xformers --no-half --no-half-vae --api --opt-split-attention --precision full --port 7861 --autolaunch --ui-settings-file supermerger-config.json
 :: if not exist extensions mkdir extensions
 cd extensions
 git clone https://github.com/BenevolenceMessiah/supermerger.git
@@ -195,7 +200,7 @@ echo As-salamu alaykum!!
 echo Downloading additional big files from Google Drive because I'm not paying for Git LFS storage space...
 echo ---------------------------------------------------------------
 cd /d %~dp0
-call curl "https://drive.usercontent.google.com/download?id=1G4cMOXvzhm3H4jtWoVLYtD81agoX_XOR&export=download&authuser=1&confirm=t&uuid=11d4e615-4f0a-4eab-91a4-e97bbdc8223c&at=APZUnTVyeHT3MjXvWl_I8VAgH7QV%3A1723366403393" -o Mangio-RVC-v23.7.0-easiergui-snapshot.zip
+call curl "https://drive.usercontent.google.com/download?id=1-8l2ahXS5Zdqyb-azGAXxD7vUrpL1zcN&export=download&authuser=0&confirm=t&uuid=cf5a8f4b-cba7-49f7-a91e-38905f4b9258&at=APZUnTXIpPjRsYEiCguRdGlaSum5%3A1724025495697" -o Mangio-RVC-v23.7.0-easiergui-snapshot.zip
 :: Unzip assets and delete archives.
 echo ---------------------------------------------------------------
 echo Attempting to install and run Mangio-RVC from snapshot!
