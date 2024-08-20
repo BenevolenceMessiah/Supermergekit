@@ -172,8 +172,8 @@ goto InstallExtra
 echo ---------------------------------------------------------------
 echo Installing supermerger...
 echo ---------------------------------------------------------------
-if not exist supermerger\ git clone https://github.com/BenevolenceMessiah/stable-diffusion-webui.git supermerger
-cd supermerger
+if not exist supermerger\ git clone https://github.com/BenevolenceMessiah/Supermerger-Web-UI Supermerger
+cd Supermerger
 git pull
 set COMMANDLINE_ARGS= --xformers --no-half --no-half-vae --api --opt-split-attention --precision full --port 7861 --autolaunch --ui-settings-file supermerger-config.json
 :: if not exist extensions mkdir extensions
