@@ -2,7 +2,7 @@
 
 - Includes a set of addtional comprehensive tools to manipulate various AI models.
 - Includes [unsloth](https://github.com/BenevolenceMessiah/unsloth), [supermerger](https://github.com/BenevolenceMessiah/supermerger)/[Supermerger-Web-UI](https://github.com/BenevolenceMessiah/Supermerger-Web-UI), Mangio-RVC-easiergui-snapshot (very fancy), [gguf-my-repo](https://huggingface.co/spaces/BenevolenceMessiah/gguf-my-repo-2) and additional local and remote AI utilities as optional addons and launchers.
-- Supports working with datasets, instruction templates, pickles, .ckpt, .safetensors, RVC and RVC2 voice models, image generation models, text generation models, multimodal support, 4Bit and 16bit LoRA and 4bit QLoRA.
+- Supports working with datasets, instruction templates, pickles, .ckpt, .safetensors, RVC and RVC2 voice models, image generation models, text generation models, multimodal support, embeddings, hypernetworks, 4Bit and 16bit LoRA and 4bit QLoRA.
 - work with all manner of merging, extraction, weight manipulation, and finetuning across pretty much any prevalent AI format!
 - Run multiple inferences simultaneously!
 - Use free computation power from Google Colab and HuggingFace Spaces in conjunction with local computation power!
