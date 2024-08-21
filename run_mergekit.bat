@@ -69,13 +69,13 @@ echo ---------------------------------------------------------------
 echo            Please choose from the following options:          
 echo ---------------------------------------------------------------
 echo 1) Install
-echo A) Install additional optional tools (unsloth, supermerger, and 
+echo A) Install/run additional optional tools (unsloth, supermerger, and 
 echo    Mangio-RVC-v23.7.0-easiergui-snapshot.)
 echo 2) Launch locally via Gradio
 echo 3) Launch locally via Jupyter Notebook
 echo 4) Launch remotley via Google Colab Notebook
 echo 5) Launch remotley via HuggingFace Spaces
-echo G) Launch remotely gguf-my-repo via HuggingFace Spaces (Tool that 
+echo G) Launch remotely: gguf-my-repo via HuggingFace Spaces (Tool that 
 echo    allows for the search and GGUF conversion of any Transformers model on Huggingface.)
 echo L) Login to HuggingFace (for saving models and accessing gated models.)
 echo E) Run LoRA extraction
@@ -207,8 +207,8 @@ echo Attempting to install and run Mangio-RVC from snapshot!
 echo ---------------------------------------------------------------
 powershell -command "Expand-Archive -Force '%~dp0*.zip' '%~dp0'"
 if exist Mangio-RVC-v23.7.0-easiergui-snapshot.zip del Mangio-RVC-v23.7.0-easiergui-snapshot.zip
-cd
 :Skip1
+cd Mangio-RVC-v23.7.0-easiergui-snapshot
 start call run_easiergui.bat
 cd ..
 goto InstallExtra
