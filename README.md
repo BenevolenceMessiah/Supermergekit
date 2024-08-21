@@ -11,6 +11,7 @@
 
 ### Installation/Operation.
 
+- clone the repo: `git clone https://github.com/BenevolenceMessiah/Supermergekit.git`.
 - Run `run_Supermergekit.bat`.
 - Follow the instructions to install and run what you want!
 - Happy merging!
