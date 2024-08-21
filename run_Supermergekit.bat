@@ -47,13 +47,13 @@ timeout /t 3
 echo As-salamu alaykum!!
 echo detecting presence of repo, git cloning if not detected...
 echo ---------------------------------------------------------------
-if exist docs\ goto Menu1
+if exist docs\ goto Notes
 git clone https://github.com/BenevolenceMessiah/Supermergekit.git
 cd Supermergekit
 git pull
 echo ---------------------------------------------------------------
 
-:Menu1
+:Notes
 echo                             Notes:     
 echo ---------------------------------------------------------------
 echo - I Recommend running option 'S' for Music first if you plan on installing everything,
@@ -65,24 +65,35 @@ echo - For quick troubleshooting in the event of any issues, delete the correspo
 echo - This program assumes you have Python 3.10.6 and Git installed!!! 
 echo      https://www.python.org/ftp/python/3.10.6/python-3.10.6-amd64.exe
 echo      https://github.com/git-for-windows/git/releases/download/v2.46.0.windows.1/Git-2.46.0-64-bit.exe
+
+timeout /t 5
+
+:Menu1
 echo ---------------------------------------------------------------
 echo            Please choose from the following options:          
 echo ---------------------------------------------------------------
+echo                             Supermergekit:     
 echo 1) Install
+echo 2) Launch locally via Gradio.
+echo 3) Launch locally via Jupyter Notebook.
+echo 4) Launch remotley via Google Colab Notebook.
+echo 5) Launch remotley via HuggingFace Spaces.
+echo                             Extra:     
 echo A) Install/run additional optional tools (unsloth, supermerger, and 
 echo    Mangio-RVC-v23.7.0-easiergui-snapshot.)
-echo 2) Launch locally via Gradio
-echo 3) Launch locally via Jupyter Notebook
-echo 4) Launch remotley via Google Colab Notebook
-echo 5) Launch remotley via HuggingFace Spaces
 echo G) Launch remotely: gguf-my-repo via HuggingFace Spaces (Tool that 
 echo    allows for the search and GGUF conversion of any Transformers model on Huggingface.)
+echo D) Launch remotely: unsloth via Google Colab Notebook.
+echo                             CLI Commands/options:
 echo L) Login to HuggingFace (for saving models and accessing gated models.)
-echo E) Run LoRA extraction
-echo T) Run model/LoRA/QLoRA training via unsloth Google Colab Notebook
+echo E) Run LoRA extraction.
+echo T) Run model/LoRA/QLoRA training via unsloth Google Colab Notebook.
+echo                             System:
+echo U) Update Everything (models, all installed repos, etc.)
+echo N) Display Notes.
 echo C) Exit
-echo U) Update
 echo S) Play music via standalone cmd console while you wait for things to install/download/merge!
+echo ---------------------------------------------------------------
 
 set /P option=Enter your choice:
 if %option% == 1 goto Install
@@ -91,11 +102,13 @@ if %option% == 2 goto Run
 if %option% == 3 goto RunNotebookLocal
 if %option% == 4 goto RunNotebookRemote
 if %option% == 5 goto RunHuggingfaceRemote
-if %option% == G goto gguff-my-repo
+if %option% == G goto gguf-my-repo
+if %option% == D goto unslothcolab
 if %option% == L goto Login
 if %option% == E goto Extraction
 if %option% == T goto Training
 if %option% == C goto End
+if %option% == N goto Notes
 if %option% == U goto Updater
 if %option% == S goto Music
 
@@ -307,6 +320,11 @@ echo Launching gguf-my repo
 start start https://huggingface.co/spaces/BenevolenceMessiah/gguf-my-repo-2
 goto Menu1
 
+:unslothcolab
+echo Launching unsloth
+start start https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp?usp=sharing
+goto Menu1
+
 :Training
 echo Running training via unsloth Google Colab Notebook...
 start start https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp?usp=sharing
@@ -321,7 +339,7 @@ echo
 start call launch_in_standalone_console.bat
 cd ..
 cd ..
-go to Menu1
+goto Menu1
 
 :End 
 echo ---------------------------------------------------------------
