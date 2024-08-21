@@ -1,4 +1,21 @@
-# mergekit
+# Supermergekit
+
+- Includes a set of addtional comprehensive tools to manipulate various AI models.
+- Includes [unsloth](https://github.com/BenevolenceMessiah/unsloth), [supermerger](https://github.com/BenevolenceMessiah/supermerger)/[Supermerger-Web-UI](https://github.com/BenevolenceMessiah/Supermerger-Web-UI), Mangio-RVC-easiergui-snapshot (very fancy), [gguf-my-repo](https://huggingface.co/spaces/BenevolenceMessiah/gguf-my-repo-2) and additional local and remote AI utilities as optional addons and launchers.
+- Supports working with datasets, instruction templates, pickles, .ckpt, .safetensors, RVC and RVC2 voice models, image generation models, text generation models, multimodal support, 4Bit and 16bit LoRA and 4bit QLoRA.
+- work with all manner of merging, extraction, weight manipulation, and finetuning across pretty much any prevalent AI format!
+- Run multiple inferences simultaneously!
+- Use free computation power from Google Colab and HuggingFace Spaces in conjunction with local computation power!
+- Includes optional music (my treat) while you install/create!
+- All installation and launchers controlled from a single .bat file!
+
+### Installation/Operation.
+
+- Run `run_Supermergekit.bat`.
+- Follow the instructions to install and run what you want!
+- Happy merging!
+
+## mergekit
 
 `mergekit` is a toolkit for merging pre-trained language models. `mergekit` uses an out-of-core approach to perform unreasonably elaborate merges in resource-constrained situations. Merges can be run entirely on CPU or accelerated with as little as 8 GB of VRAM. Many merging algorithms are supported, with more coming as they catch my attention.
 
