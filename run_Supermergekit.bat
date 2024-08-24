@@ -30,7 +30,7 @@ for /f "delims=: tokens=*" %%A in ('findstr /b ::: "%~f0"') do @echo(%%A
 
 :: Play background music from audio
 cd audio
-set "file=New D2.wav"
+set "file=Benevolence_Messiah_DJ_Kwe.wav"
 ( echo Set Sound = CreateObject("WMPlayer.OCX.7"^)
   echo Sound.URL = "%file%"
   echo Sound.Controls.play
@@ -54,26 +54,76 @@ git pull
 echo ---------------------------------------------------------------
 
 :Notes
+if not exist audio\ mkdir audio
+cd audio
+if exist stop_audio.bat goto Notesinit
+:: Download audio.zip
+cd ..
+cd /d %~dp0
+call curl "https://drive.usercontent.google.com/download?id=1uSsDQrCvuzu_2PKHjURDyVD0onp9kKiY&export=download&authuser=0&confirm=t&uuid=6ecfd902-9aa5-4af0-892d-560d031c3175&at=AO7h07fAKXTh9pzLOcSm0dEGymEK%3A1724532741681" -o audio.zip
+:: Unzip assets and delete archives.
+powershell -command "Expand-Archive -Force '%~dp0*.zip' '%~dp0'"
+if exist audio.zip del audio.zip
+:: Play background music from audio
+goto Notesinit
+
+:Notesinit
+:: cd audio
+set "file=Notes-Menu.wav"
+( echo Set Sound = CreateObject("WMPlayer.OCX.7"^)
+  echo Sound.URL = "%file%"
+  echo Sound.Controls.play
+  echo do while Sound.currentmedia.duration = 0
+  echo wscript.sleep 100
+  echo loop
+  echo wscript.sleep (int(Sound.currentmedia.duration^)+1^)*1000) >sound.vbs
+start /min sound.vbs
+cd ..
+echo ---------------------------------------------------------------
 echo                             Notes:     
 echo ---------------------------------------------------------------
 echo - I Recommend running option 'S' for Music first if you plan on installing everything,
 echo   or would otherwise would like to listen to music while you work.
-echo - These options are all case sensitive.
-echo - Launching remotely may be advantageous for merging larger models
+echo - These options are all case sensitive. Make sure you input uppercase letters for the following
+echo   options, or else, weird things may happen.
+echo - Launching remotely may be advantageous for merging larger models.
 echo - Press Ctrl+c to exit, stop an install or a download at any time!
-echo - For quick troubleshooting in the event of any issues, delete the corresponding virtual environment for each repo. 
+echo - Select option 'N' from the Main Menu at any time to display these notes.
+echo - For quick troubleshooting in the event of any issues, delete the corresponding virtual environment
+echo   for each repo. Typically this is a folder in  each repo called '.venv'.
+echo - Run 'stop_audio.bat' (located in any folder that contains audio in these repos) at any 
+echo   time to stop music.
 echo - This program assumes you have Python 3.10.6 and Git installed!!! 
 echo      https://www.python.org/ftp/python/3.10.6/python-3.10.6-amd64.exe
 echo      https://github.com/git-for-windows/git/releases/download/v2.46.0.windows.1/Git-2.46.0-64-bit.exe
+echo - If you don't have one or either of these installed, either paste these URLs into your browser or use
+echo   option 'B' from the following Main Menu. In any case, with Python, make sure to set PATH.
+timeout /t -1
+echo                           Supermergekit:
+echo ---------------------------------------------------------------
+echo - Includes a set of addtional comprehensive tools to manipulate various AI models.
+echo - Includes unsloth, supermerger/Supermerger-Web-UI, Mangio-RVC-easiergui-snapshot (very fancy), 
+echo   gguf-my-repo and additional local and remote AI utilities as optional addons and launchers.
+echo - Supports working with datasets, instruction templates, pickles, .ckpt, .safetensors, RVC and RVC2
+echo   voice models, image generation models, text generation models, multimodal support, embeddings,
+echo   hypernetworks, 4Bit and 16bit LoRA and 4bit QLoRA.
+echo - Work with all manner of merging, extraction, weight manipulation, and finetuning across pretty
+echo   much any prevalent AI format!
+echo - Run multiple inferences simultaneously!
+echo - Use free computation power from Google Colab and HuggingFace Spaces in conjunction with local 
+echo   computation power!
+echo - Includes optional music (my treat) while you install/create!
+echo - All installation and launchers controlled from a single .bat file!
 
-timeout /t 5
+timeout /t -1
 
 :Menu1
+Taskkill  /F /IM wscript.exe
 echo ---------------------------------------------------------------
 echo            Please choose from the following options:          
 echo ---------------------------------------------------------------
 echo                             Supermergekit:     
-echo 1) Install
+echo 1) Install.
 echo 2) Launch locally via Gradio.
 echo 3) Launch locally via Jupyter Notebook.
 echo 4) Launch remotley via Google Colab Notebook.
@@ -89,9 +139,12 @@ echo L) Login to HuggingFace (for saving models and accessing gated models.)
 echo E) Run LoRA extraction.
 echo T) Run model/LoRA/QLoRA training via unsloth Google Colab Notebook.
 echo                             System:
+echo B) Install/reinstall/fix Python and Git. (Only do this if you don't have these installed
+echo    or in the event you encounter errors related to Python or Git.)
 echo U) Update Everything (models, all installed repos, etc.)
 echo N) Display Notes.
 echo C) Exit
+echo F) Stop audio.
 echo S) Play music via standalone cmd console while you wait for things to install/download/merge!
 echo ---------------------------------------------------------------
 
@@ -107,9 +160,11 @@ if %option% == D goto unslothcolab
 if %option% == L goto Login
 if %option% == E goto Extraction
 if %option% == T goto Training
+if %option% == B goto Python/GitInstall
 if %option% == C goto End
 if %option% == N goto Notes
 if %option% == U goto Updater
+if %option% == F goto StopAudio
 if %option% == S goto Music
 
 :Install
@@ -132,6 +187,18 @@ pip install -e .
 pip install -r requirements.txt
 :: pip install numpy 2.0.1
 pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu124
+:: Play background music from audio
+cd audio
+set "file=New D2.wav"
+( echo Set Sound = CreateObject("WMPlayer.OCX.7"^)
+  echo Sound.URL = "%file%"
+  echo Sound.Controls.play
+  echo do while Sound.currentmedia.duration = 0
+  echo wscript.sleep 100
+  echo loop
+  echo wscript.sleep (int(Sound.currentmedia.duration^)+1^)*1000) >sound.vbs
+start /min sound.vbs
+cd ..
 echo installed!
 echo ---------------------------------------------------------------
 goto Menu1
@@ -330,6 +397,39 @@ echo Running training via unsloth Google Colab Notebook...
 start start https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp?usp=sharing
 goto Menu1
 
+:Python/GitInstall
+echo ---------------------------------------------------------------
+echo As-salamu alaykum!!
+echo What do you need to install?
+echo ---------------------------------------------------------------
+echo 9) Install Git.
+echo 10) Install Python 3.10.
+echo M) Main Menu
+echo C) Exit
+echo ---------------------------------------------------------------
+
+set /P option=Enter your choice:
+if %option% == 9 goto GitInstall
+if %option% == 10 goto PythonInstall
+if %option% == M goto Menu1
+if %option% == C goto End
+
+:GitInstall
+echo Installing Git...
+echo ---------------------------------------------------------------
+cd /d %~dp0
+call curl "https://github.com/git-for-windows/git/releases/download/v2.46.0.windows.1/Git-2.46.0-64-bit.exe" Git-2.46.0-64-bit.exe
+start call Git-2.46.0-64-bit.exe
+goto Python/GitInstall
+
+:PythonInstall
+echo Installing Python 3.10...
+echo ---------------------------------------------------------------
+cd /d %~dp0
+call curl "https://www.python.org/ftp/python/3.10.6/python-3.10.6-amd64.exe" python-3.10.6-amd64.exe
+start call python-3.10.6-amd64.exe
+goto Python/GitInstall
+
 :Music
 echo Installing music dependencies if not installed...
 echo ---------------------------------------------------------------
@@ -339,6 +439,12 @@ echo
 start call launch_in_standalone_console.bat
 cd ..
 cd ..
+goto Menu1
+
+:StopAudio
+echo stopping the music :(
+Taskkill  /F /IM wscript.exe
+echo ---------------------------------------------------------------  
 goto Menu1
 
 :End 

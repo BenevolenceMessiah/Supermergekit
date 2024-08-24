@@ -26,6 +26,7 @@ share/python-wheels/
 *.egg
 sound.vbs
 Audio_Assets/
+audio/
 unsloth/
 extensions/
 supermerger/
