@@ -476,7 +476,7 @@ if %option% == C goto End
 echo Installing Git...
 echo ---------------------------------------------------------------
 cd /d %~dp0
-call curl "https://github.com/git-for-windows/git/releases/download/v2.46.0.windows.1/Git-2.46.0-64-bit.exe" Git-2.46.0-64-bit.exe
+call curl "https://github.com/git-for-windows/git/releases/download/v2.46.0.windows.1/Git-2.46.0-64-bit.exe" -o Git-2.46.0-64-bit.exe
 start call Git-2.46.0-64-bit.exe
 goto Python/GitInstall
 
@@ -484,13 +484,16 @@ goto Python/GitInstall
 echo Installing Python 3.10...
 echo ---------------------------------------------------------------
 cd /d %~dp0
-call curl "https://www.python.org/ftp/python/3.10.6/python-3.10.6-amd64.exe" python-3.10.6-amd64.exe
+call curl "https://www.python.org/ftp/python/3.10.6/python-3.10.6-amd64.exe" -o python-3.10.6-amd64.exe
 start call python-3.10.6-amd64.exe
 goto Python/GitInstall
 
 :RestartCMD
 echo Restarting...
+echo Deleting installer .exe files if they exist...
 echo ---------------------------------------------------------------
+if exist Git-2.46.0-64-bit.exe del Git-2.46.0-64-bit.exe
+if exist python-3.10.6-amd64.exe del python-3.10.6-amd64.exe
 start call run_Supermergekit.bat
 exit
 
