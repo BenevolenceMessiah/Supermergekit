@@ -28,7 +28,8 @@ setlocal
 
 for /f "delims=: tokens=*" %%A in ('findstr /b ::: "%~f0"') do @echo(%%A
 
-:: Play background music from audio
+:: Play soundbyte from audio
+if not exist audio\ mkdir audio
 cd audio
 set "file=Benevolence_Messiah_DJ_Kwe.wav"
 ( echo Set Sound = CreateObject("WMPlayer.OCX.7"^)
@@ -43,7 +44,7 @@ cd ..
 
 timeout /t 3
 
-:: Download the code
+:: Download the repo code if its not downloaded.
 echo As-salamu alaykum!!
 echo detecting presence of repo, git cloning if not detected...
 echo ---------------------------------------------------------------
@@ -51,6 +52,17 @@ if exist docs\ goto Notes
 git clone https://github.com/BenevolenceMessiah/Supermergekit.git
 cd Supermergekit
 git pull
+cd audio
+set "file=Benevolence_Messiah_DJ_Kwe.wav"
+( echo Set Sound = CreateObject("WMPlayer.OCX.7"^)
+  echo Sound.URL = "%file%"
+  echo Sound.Controls.play
+  echo do while Sound.currentmedia.duration = 0
+  echo wscript.sleep 100
+  echo loop
+  echo wscript.sleep (int(Sound.currentmedia.duration^)+1^)*1000) >sound.vbs
+start /min sound.vbs
+cd ..
 echo ---------------------------------------------------------------
 
 :Notes
@@ -65,8 +77,7 @@ call curl "https://drive.usercontent.google.com/download?id=1uSsDQrCvuzu_2PKHjUR
 powershell -command "Expand-Archive -Force '%~dp0*.zip' '%~dp0'"
 if exist audio.zip del audio.zip
 :: Play background music from audio
-goto Notesinit
-
+goto Notes
 :Notesinit
 :: cd audio
 set "file=Notes-Menu.wav"
@@ -79,9 +90,11 @@ set "file=Notes-Menu.wav"
   echo wscript.sleep (int(Sound.currentmedia.duration^)+1^)*1000) >sound.vbs
 start /min sound.vbs
 cd ..
+
 echo ---------------------------------------------------------------
 echo                             Notes:     
 echo ---------------------------------------------------------------
+echo - This should go without saying, but you should read this brief notes section...
 echo - I Recommend running option 'S' for Music first if you plan on installing everything,
 echo   or would otherwise would like to listen to music while you work.
 echo - These options are all case sensitive. Make sure you input uppercase letters for the following
@@ -96,12 +109,15 @@ echo   time to stop music.
 echo - This program assumes you have Python 3.10.6 and Git installed!!! 
 echo      https://www.python.org/ftp/python/3.10.6/python-3.10.6-amd64.exe
 echo      https://github.com/git-for-windows/git/releases/download/v2.46.0.windows.1/Git-2.46.0-64-bit.exe
-echo - If you don't have one or either of these installed, either paste these URLs into your browser or use
-echo   option 'B' from the following Main Menu. In any case, with Python, make sure to set PATH.
+echo - If you don't have one or either of these installed, either paste these URLs into your browser or,
+echo   even easier, use option 'B' from the following Main Menu. In any case, with Python, make sure to
+echo   set PATH.
+echo - Without having or installing Python and Git, you can still utilize the remote options;
+echo   4,5,D, and G.
 timeout /t -1
 echo                           Supermergekit:
 echo ---------------------------------------------------------------
-echo - Includes a set of addtional comprehensive tools to manipulate various AI models.
+echo - Includes a set of addtional comprehensive tools to manipulate various types of AI models.
 echo - Includes unsloth, supermerger/Supermerger-Web-UI, Mangio-RVC-easiergui-snapshot (very fancy), 
 echo   gguf-my-repo and additional local and remote AI utilities as optional addons and launchers.
 echo - Supports working with datasets, instruction templates, pickles, .ckpt, .safetensors, RVC and RVC2
@@ -114,6 +130,7 @@ echo - Use free computation power from Google Colab and HuggingFace Spaces in co
 echo   computation power!
 echo - Includes optional music (my treat) while you install/create!
 echo - All installation and launchers controlled from a single .bat file!
+echo ---------------------------------------------------------------
 
 timeout /t -1
 
@@ -135,7 +152,8 @@ echo G) Launch remotely: gguf-my-repo via HuggingFace Spaces (Tool that
 echo    allows for the search and GGUF conversion of any Transformers model on Huggingface.)
 echo D) Launch remotely: unsloth via Google Colab Notebook.
 echo                             CLI Commands/options:
-echo L) Login to HuggingFace (for saving models and accessing gated models.)
+echo L) Login to HuggingFace (for saving/uploading, models and accessing/downloading gated 
+echo    models.)
 echo E) Run LoRA extraction.
 echo T) Run model/LoRA/QLoRA training via unsloth Google Colab Notebook.
 echo                             System:
@@ -187,7 +205,7 @@ pip install -e .
 pip install -r requirements.txt
 :: pip install numpy 2.0.1
 pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu124
-:: Play background music from audio
+:: Play soundbyte from audio
 cd audio
 set "file=New D2.wav"
 ( echo Set Sound = CreateObject("WMPlayer.OCX.7"^)
@@ -244,6 +262,18 @@ cd unsloth
 git pull
 start call Install-unsloth.bat
 cd ..
+:: Play soundbyte from audio
+cd audio
+set "file=New D2.wav"
+( echo Set Sound = CreateObject("WMPlayer.OCX.7"^)
+  echo Sound.URL = "%file%"
+  echo Sound.Controls.play
+  echo do while Sound.currentmedia.duration = 0
+  echo wscript.sleep 100
+  echo loop
+  echo wscript.sleep (int(Sound.currentmedia.duration^)+1^)*1000) >sound.vbs
+start /min sound.vbs
+cd ..
 echo installed!
 echo ---------------------------------------------------------------
 goto InstallExtra
@@ -264,6 +294,18 @@ git pull
 cd ..
 cd ..
 start call webui-user.bat
+cd ..
+:: Play soundbyte from audio
+cd audio
+set "file=New D2.wav"
+( echo Set Sound = CreateObject("WMPlayer.OCX.7"^)
+  echo Sound.URL = "%file%"
+  echo Sound.Controls.play
+  echo do while Sound.currentmedia.duration = 0
+  echo wscript.sleep 100
+  echo loop
+  echo wscript.sleep (int(Sound.currentmedia.duration^)+1^)*1000) >sound.vbs
+start /min sound.vbs
 cd ..
 echo installed!
 echo ---------------------------------------------------------------
@@ -291,6 +333,20 @@ if exist Mangio-RVC-v23.7.0-easiergui-snapshot.zip del Mangio-RVC-v23.7.0-easier
 cd Mangio-RVC-v23.7.0-easiergui-snapshot
 start call run_easiergui.bat
 cd ..
+:: Play soundbyte from audio
+cd audio
+set "file=New D2.wav"
+( echo Set Sound = CreateObject("WMPlayer.OCX.7"^)
+  echo Sound.URL = "%file%"
+  echo Sound.Controls.play
+  echo do while Sound.currentmedia.duration = 0
+  echo wscript.sleep 100
+  echo loop
+  echo wscript.sleep (int(Sound.currentmedia.duration^)+1^)*1000) >sound.vbs
+start /min sound.vbs
+cd ..
+echo installed!
+echo ---------------------------------------------------------------
 goto InstallExtra
 
 :Login
@@ -403,14 +459,16 @@ echo As-salamu alaykum!!
 echo What do you need to install?
 echo ---------------------------------------------------------------
 echo 9) Install Git.
-echo 10) Install Python 3.10.
+echo 10) Install Python 3.10. (Make sure to enable PATH)!
 echo M) Main Menu
+echo R) Restart the .bat file (do this after installing either or both of these).
 echo C) Exit
 echo ---------------------------------------------------------------
 
 set /P option=Enter your choice:
 if %option% == 9 goto GitInstall
 if %option% == 10 goto PythonInstall
+if %option% == R goto RestartCMD
 if %option% == M goto Menu1
 if %option% == C goto End
 
@@ -430,14 +488,19 @@ call curl "https://www.python.org/ftp/python/3.10.6/python-3.10.6-amd64.exe" pyt
 start call python-3.10.6-amd64.exe
 goto Python/GitInstall
 
+:RestartCMD
+echo Restarting...
+echo ---------------------------------------------------------------
+start call run_Supermergekit.bat
+exit
+
 :Music
 echo Installing music dependencies if not installed...
 echo ---------------------------------------------------------------
 if not exist Audio_Assets git clone https://github.com/BenevolenceMessiah/Audio_Assets.git
 cd Audio_Assets
-echo 
+echo Launching Standalone Music CMD Window!
 start call launch_in_standalone_console.bat
-cd ..
 cd ..
 goto Menu1
 
