@@ -434,7 +434,7 @@ start start https://colab.research.google.com/drive/1TcXuBLbGMsuDazv5eEuVc7rgXVN
 goto Menu1
 
 :RunHuggingfaceRemote
-echo Running mergekit-gui
+echo Running mergekit-gui via HuggingFace
 start start https://huggingface.co/spaces/arcee-ai/mergekit-gui
 goto Menu1
 
@@ -450,7 +450,7 @@ goto Menu1
 
 :Training
 echo Running training via unsloth Google Colab Notebook...
-start start https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp?usp=sharing
+start start https://colab.research.google.com/drive/15OyFkGoCImV9dSsewU1wa2JuKB4-mDE_?usp=sharing
 goto Menu1
 
 :Python/GitInstall
